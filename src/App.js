@@ -1,32 +1,65 @@
-import logo from "./logo.svg";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import { Message } from "./components/Message";
+import { ChatList } from "./components/ChatList";
+import { AUTHORS } from "./utils/constants";
+import { MessageList } from "./components/MessageList";
+import { Form } from "./components/Form";
+import { FormMUI } from "./components/FormMUI";
 
-
-const myText = "Hello!";
+const chats = [
+  { name: "Chat1", id: "1" },
+  { name: "Chat2", id: "2" },
+];
 
 function App() {
-  const handleMessageClick = () => {
-    console.log("hello!");
+  const [messageList, setMessageList] = useState([]);
+  const messagesEnd = useRef();
+
+  const handleAddMessage = (text) => {
+    sendMessage(text, AUTHORS.ME);
   };
+
+  const sendMessage = (text, author) => {
+    const newMsg = {
+      text,
+      author,
+      id: `msg-${Date.now()}`,
+    };
+    setMessageList((prevMessageList) => [...prevMessageList, newMsg]);
+  };
+
+  useEffect(() => {
+    messagesEnd.current?.scrollIntoView();
+
+    let timeout;
+    if (messageList[messageList.length - 1]?.author === AUTHORS.ME) {
+      timeout = setTimeout(() => {
+        sendMessage("still here", AUTHORS.BOT);
+      }, 1000);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [messageList]);
+
+  useEffect(() => {
+    console.log(messagesEnd);
+  }, []);
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-        My First React App
-        </p>
-        
-        <Message
-          myString="my string"
-          text={myText}
-          onMessageClick={handleMessageClick}
-        />
-       
-      </header>
+      <ChatList />
+      <div>
+        <div className="App-content">
+          <MessageList messages={messageList} />
+          <div ref={messagesEnd} />
+        </div>
+        <FormMUI onSubmit={handleAddMessage} />
+      </div>
     </div>
   );
 }
 
 export default App;
+
+console.log(<div>Example</div>);
