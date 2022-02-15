@@ -1,32 +1,11 @@
-import logo from "./logo.svg";
-import "./App.css";
-import { Message } from "./components/Message";
+import { Provider } from "react-redux";
+import { Router } from "./components/Router";
+import { store } from "./store";
 
-
-const myText = "Hello!";
-
-function App() {
-  const handleMessageClick = () => {
-    console.log("hello!");
-  };
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-        My First React App
-        </p>
-        
-        <Message
-          myString="my string"
-          text={myText}
-          onMessageClick={handleMessageClick}
-        />
-       
-      </header>
-    </div>
-  );
-}
+const App = () => (
+  <Provider store={store}>
+    <Router />
+  </Provider>
+);
 
 export default App;
