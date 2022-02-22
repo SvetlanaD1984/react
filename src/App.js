@@ -1,32 +1,14 @@
-import logo from "./logo.svg";
-import "./App.css";
-import { Message } from "./components/Message";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { Router } from "./components/Router";
+import { persistor, store } from "./store";
 
-
-const myText = "Hello!";
-
-function App() {
-  const handleMessageClick = () => {
-    console.log("hello!");
-  };
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-        My First React App
-        </p>
-        
-        <Message
-          myString="my string"
-          text={myText}
-          onMessageClick={handleMessageClick}
-        />
-       
-      </header>
-    </div>
-  );
-}
+const App = () => (
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      <Router />
+    </PersistGate>
+  </Provider>
+);
 
 export default App;
