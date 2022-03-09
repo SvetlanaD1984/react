@@ -1,10 +1,17 @@
 .App {
   text-align: center;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+.App-content {
+  max-height: 100px;
+  overflow: scroll;
 }
 
 @media (prefers-reduced-motion: no-preference) {
